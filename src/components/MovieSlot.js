@@ -9,15 +9,17 @@ class MovieSlot extends Component {
     title: PropTypes.string.isRequired,
     poster: PropTypes.string.isRequired,
     genres: PropTypes.array.isRequired,
+    actors: PropTypes.array.isRequired,
     synopsis: PropTypes.string.isRequired
-  }
+  };
 
   static defaultProps = {
     title: "",
     poster: "",
     genres: [],
+    actors: [],
     synopsis: ""
-  }
+  };
 
   render() {
     return (
@@ -29,6 +31,9 @@ class MovieSlot extends Component {
           <h1>{this.props.title}</h1>
           <div className="Movie__Genres">
             {this.props.genres.map((genre) => <span className="Movie__Genre">{genre}</span>)}
+          </div>
+          <div className="Movie__Genres">
+            {this.props.actors.map((actor) => <span className="Movie__Genre">{actor}</span>)}
           </div>
           <div className="Movie__Synopsis">
             <LinesEllipsis

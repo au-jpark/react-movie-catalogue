@@ -9,8 +9,14 @@ import {
   InputGroup, InputGroupAddon,
   InputGroupButtonDropdown,
 } from 'reactstrap';
+import PropTypes from "prop-types";
 
 class SearchBar extends Component {
+  static propTypes = {
+    updateSearchBy: PropTypes.func.isRequired,
+    updateSearchText: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
 
@@ -18,8 +24,30 @@ class SearchBar extends Component {
     this.toggleSplit = this.toggleSplit.bind(this);
     this.state = {
       dropDownOpen: false,
-      splitButtonOpen: false
+      splitButtonOpen: false,
+      searchText: '',
+      searchBy: 'title'
     };
+  }
+
+  updateSearchByToTitle = () => {
+    this.setState({searchBy: 'title'});
+    this.props.updateSearchBy('title');
+  }
+
+  updateSearchByToGenre = () => {
+    this.setState({searchBy: 'genre'});
+    this.props.updateSearchBy('genre');
+  }
+
+  updateSearchByToActor = () => {
+    this.setState({searchBy: 'actor'});
+    this.props.updateSearchBy('actor');
+  }
+
+  updateSearchText = (e) => {
+    this.setState({searchText: e.target.value});
+    this.props.updateSearchText(e.target.value);
   }
 
   toggleDropDown() {
@@ -34,31 +62,22 @@ class SearchBar extends Component {
     });
   }
 
-  state = {
-    searchText: '',
-  }
-
-  onTextChange = (e, {value}) => {
-    this.setState({searchText: value});
-    this.props.onTextChange(value);
-  }
-
   render() {
-    let value = 'Search by...';
-    const { searchText } = this.state;
+    const { searchText, searchBy } = this.state;
+    let value = 'Search by ' + searchBy;
     return(
       <InputGroup>
         <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
           <DropdownToggle split outline />
           <DropdownMenu>
-            <DropdownItem>By Title</DropdownItem>
-            <DropdownItem>By Genre</DropdownItem>
-            <DropdownItem>By Actor</DropdownItem>
+            <DropdownItem onClick={this.updateSearchByToTitle}>By Title</DropdownItem>
+            <DropdownItem onClick={this.updateSearchByToGenre}>By Genre</DropdownItem>
+            <DropdownItem onClick={this.updateSearchByToActor}>By Actor</DropdownItem>
           </DropdownMenu>
         </InputGroupButtonDropdown>
         <Input
           placeholder={value}
-          // onChange={this.onTextChange}
+          onChange={this.updateSearchText}
           value={searchText}/>
         <InputGroupAddon addonType="append"><Button color="secondary">Search</Button></InputGroupAddon>
       </InputGroup>
