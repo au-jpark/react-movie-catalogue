@@ -33,22 +33,22 @@ class SearchBar extends Component {
   updateSearchByToTitle = () => {
     this.setState({searchBy: 'title'});
     this.props.updateSearchBy('title');
-  }
+  };
 
   updateSearchByToGenre = () => {
     this.setState({searchBy: 'genre'});
     this.props.updateSearchBy('genre');
-  }
+  };
 
   updateSearchByToActor = () => {
     this.setState({searchBy: 'actor'});
     this.props.updateSearchBy('actor');
-  }
+  };
 
   updateSearchText = (e) => {
     this.setState({searchText: e.target.value});
     this.props.updateSearchText(e.target.value);
-  }
+  };
 
   toggleDropDown() {
     this.setState({

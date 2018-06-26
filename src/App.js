@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 import SearchBar from "./components/SearchBar";
 import MovieSlot from "./components/MovieSlot";
+import AddMovieModal from "./components/AddMovieModal";
 
 class App extends Component {
 
   state = {
+    movies: [],
+    movieId: 0,
     searchText: '',
     searchBy: 'title',
   };
@@ -41,37 +44,27 @@ class App extends Component {
     this.setState({searchText:newText});
   };
 
-  componentWillMount() {
-    const movies = [
-      {
-        title_english: "Snowpiercer",
-        large_cover_image: "https:\\/\\/yts.am\\/assets\\/images\\/movies\\/Snowpiercer_2013\\/large-cover.jpg",
-        id: "",
-        genres: ["Adventure","Sci-Fi"],
-        actors: ["a", "b"],
-        synopsis: ""
-      },
-      {
-        title_english: "Avengers",
-        large_cover_image: "https:\\/\\/yts.am\\/assets\\/images\\/movies\\/avengers_age_of_ultron_2015\\/large-cover.jpg",
-        id: "",
-        genres: ["Action","Adventure"],
-        actors: ["c, d"],
-        synopsis: ""
-      },
-      {
-        title_english: "Captain America",
-        large_cover_image: "https:\\/\\/yts.am\\/assets\\/images\\/movies\\/Captain_America_The_Winter_Soldier_2014\\/large-cover.jpg",
-        id: "",
-        genres: ["Thriller"],
-        actors: ["a", "d"],
-        synopsis: ""
-      }
-    ];
+  addNewMovie = () => {
+    let {movies, movieId} = this.state;
+    let newMovie = movies.slice(-1)[0];
+    localStorage.setItem(movieId.toString(), JSON.stringify(newMovie));
+    movieId += 1;
+    localStorage.setItem("Movie_Id", movieId);
+    this.setState({movieId:movieId});
+  };
 
-    this.setState({
-      movies
-    });
+  componentWillMount() {
+    let movieId = parseInt(localStorage.getItem("Movie_Id"));
+    let {movies} = this.state;
+    if (movieId > 0) {
+      for (var i = 0; i < movieId; i++) {
+        let savedMovie = localStorage.getItem(i.toString());
+        movies.push(JSON.parse(savedMovie));
+      }
+      this.setState({
+        movieId: movieId
+      });
+    }
   }
 
   renderMovieSlot = (movies) => {
@@ -104,6 +97,9 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Movie Catalogue</h1>
+          <AddMovieModal
+            movieList={movies}
+            addNewMovie={this.addNewMovie}/>
         </header>
         <div className="App-content">
           {this.renderMovieSlot(movies)}
