@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import SearchBar from "./components/SearchBar";
 import AddMovieModal from "./components/AddMovieModal";
-import NewMovieSlot from "./components/NewMovieSlot";
+import MovieSlot from "./components/MovieSlot";
 
 class App extends Component {
 
@@ -105,11 +105,11 @@ class App extends Component {
     const moviesToDisplay = source.map(element => {
       if (this.state.searchText !== "") {
         return(
-          <NewMovieSlot movieId={element.id}/>
+          <MovieSlot movieId={element.id}/>
         )
       } else {
         return(
-          <NewMovieSlot movieId={element}/>
+          <MovieSlot movieId={element}/>
         )
       }
     });
