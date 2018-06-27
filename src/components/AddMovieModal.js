@@ -7,7 +7,7 @@ import {
   ModalFooter,
   InputGroup,
   InputGroupAddon,
-  InputGroupText, Input, FormFeedback
+  InputGroupText, Input, FormFeedback, Table
 } from 'reactstrap';
 import PropTypes from "prop-types";
 
@@ -44,7 +44,6 @@ class AddMovieModal extends Component {
   }
 
   updateSearchResult() {
-    document.getElementById('results').className = 'formResults';
     let val = document.getElementById('searchInput').value;
 
     const key = 'ed7838206772925308953af2b2162f01';
@@ -81,7 +80,7 @@ class AddMovieModal extends Component {
     return (
       <div>
         <Button color="secondary" size="lg" onClick={this.toggle}>Add New Movie</Button>
-        <Modal isOpen={this.state.addNewMovie} toggle={this.toggle} className={this.props.className}>
+        <Modal isOpen={this.state.addNewMovie} toggle={this.toggle}>
           <ModalHeader toggle={this.toggle}>Add a movie to your catalogue</ModalHeader>
           <ModalBody>
             <form onSubmit={this.handleSubmit} id="form">
@@ -93,16 +92,25 @@ class AddMovieModal extends Component {
                 <FormFeedback>Title needs to filled in.</FormFeedback>
               </InputGroup>
               <br/>
-              <ul id="results">
+              <Table hover id="results">
+                <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Release Date</th>
+                </tr>
+                </thead>
+                <tbody>
                 {this.state.results.map((element, index) => {
-                  return(
-                    <div onClick={() => this.addMovieId(this.state.results[index].id)}>
-                      <p>{this.state.results[index].title}</p>
-                      <p>{this.state.results[index].release_date}</p>
-                    </div>
-                  )
-                })}
-              </ul>
+                    return(
+                      <tr onClick={() => this.addMovieId(this.state.results[index].id)} >
+                        <td>{this.state.results[index].title}</td>
+
+                        <td>{this.state.results[index].release_date}</td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </Table>
             </form>
           </ModalBody>
           <ModalFooter>
