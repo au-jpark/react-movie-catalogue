@@ -3,6 +3,7 @@ import './App.css';
 import SearchBar from "./components/SearchBar";
 import AddMovieModal from "./components/AddMovieModal";
 import MovieSlot from "./components/MovieSlot";
+import StickyFooter from 'react-sticky-footer';
 
 class App extends Component {
 
@@ -132,9 +133,11 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1 className="App-title">Movie Catalogue</h1>
-          <AddMovieModal
-            movieIds={movieIds}
-            addNewMovie={this.addNewMovie}/>
+          <div className="Add-movie-button">
+            <AddMovieModal
+              movieIds={movieIds}
+              addNewMovie={this.addNewMovie}/>
+          </div>
         </header>
         <div className="App-content">
           {this.renderMovieSlot(renderingSource)}
