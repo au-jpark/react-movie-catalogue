@@ -1,17 +1,32 @@
 import React, { Component } from 'react';
 import './App.css';
 import SearchBar from "./components/SearchBar";
-import MovieSlot from "./components/MovieSlot";
 import AddMovieModal from "./components/AddMovieModal";
+import NewMovieSlot from "./components/NewMovieSlot";
 
 class App extends Component {
 
   state = {
+    movieIds: [],
     movies: [],
-    movieId: 0,
+    numberOfMovies: 0,
     searchText: '',
     searchBy: 'title',
   };
+
+  constructor(props) {
+    super(props);
+
+    let savedNumberOfMovies = parseInt(localStorage.getItem("Number_Of_Movies"));
+    let {movieIds, numberOfMovies} = this.state;
+    if (savedNumberOfMovies > 0) {
+      for (var i = 0; i < savedNumberOfMovies; i++) {
+        let savedMovieId = localStorage.getItem(i.toString());
+        movieIds.push(savedMovieId);
+      }
+      this.state.numberOfMovies = savedNumberOfMovies;
+    }
+  }
 
   searchMovie = (searchText, searchBy) => {
     if (searchBy === 'title') {
@@ -24,7 +39,7 @@ class App extends Component {
   };
 
   searchByTitle(searchText, movie) {
-    return movie.title_english.toLowerCase().includes(searchText);
+    return movie.title.toLowerCase().includes(searchText);
   }
 
   searchByGenre(searchText, movie) {
@@ -45,46 +60,69 @@ class App extends Component {
   };
 
   addNewMovie = () => {
-    let {movies, movieId} = this.state;
-    let newMovie = movies.slice(-1)[0];
-    localStorage.setItem(movieId.toString(), JSON.stringify(newMovie));
-    movieId += 1;
-    localStorage.setItem("Movie_Id", movieId);
-    this.setState({movieId:movieId});
+    let {numberOfMovies, movieIds} = this.state;
+    let newMovie = movieIds.slice(-1)[0];
+    localStorage.setItem(numberOfMovies.toString(), newMovie);
+    numberOfMovies += 1;
+    localStorage.setItem("Number_Of_Movies", numberOfMovies);
+    this.setState({ numberOfMovies:numberOfMovies});
   };
 
-  componentWillMount() {
-    let movieId = parseInt(localStorage.getItem("Movie_Id"));
-    let {movies} = this.state;
-    if (movieId > 0) {
-      for (var i = 0; i < movieId; i++) {
-        let savedMovie = localStorage.getItem(i.toString());
-        movies.push(JSON.parse(savedMovie));
-      }
-      this.setState({
-        movieId: movieId
-      });
-    }
-  }
+  // getData(movieIdToDisplay) {
+  //   console.log("Getting Data");
+  //   const key = 'ed7838206772925308953af2b2162f01';
+  //
+  //   fetch(`https://api.themoviedb.org/3/movie/${movieIdToDisplay}?api_key=${key}&language=en-US&append_to_response=credits`)
+  //     .then(response => {
+  //       if (response.status !== 200) {
+  //         console.log('Error: ' + response.status);
+  //         return;
+  //       }
+  //
+  //       response.json().then(data => {
+  //         const movie = data;
+  //         const newMovie = {
+  //           id: movie.id,
+  //           title: movie.title,
+  //           actors: movie.credits.cast.slice(0, 3),
+  //           genres: movie.genres.slice(0,3),
+  //         };
+  //         console.log("Adding here");
+  //         console.log(newMovie);
+  //         this.state.movies.push(newMovie);
+  //       });
+  //
+  //     })
+  //     .catch(err => {
+  //       console.log('Fetch Error :-S', err);
+  //     })
+  // }
 
-  renderMovieSlot = (movies) => {
-    const moviesToDisplay = movies.map(movie => {
-      return (
-        <MovieSlot
-          title={movie.title_english}
-          poster={movie.large_cover_image}
-          key={movie.id}
-          genres={movie.genres}
-          actors={movie.actors}
-          synopsis={movie.synopsis}
-        />
-      );
+  renderMovieSlot = (movieIds) => {
+    // const moviesToDisplay = movies.map(movie => {
+    //   return (
+    //     <MovieSlot
+    //       title={movie.title_english}
+    //       poster={movie.large_cover_image}
+    //       key={movie.id}
+    //       genres={movie.genres}
+    //       actors={movie.actors}
+    //       synopsis={movie.synopsis}
+    //     />
+    //   );
+    // });
+
+    const moviesToDisplay = movieIds.map(movieId => {
+      console.log("rendering");
+      return(
+        <NewMovieSlot movieId={movieId}/>
+      )
     });
     return moviesToDisplay;
   };
 
   render() {
-    let { movies, searchText, searchBy } = this.state;
+    let { movieIds, movies, searchText, searchBy } = this.state;
 
     // Search by title/genres/actors
     if (searchText !== "") {
@@ -98,11 +136,11 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Movie Catalogue</h1>
           <AddMovieModal
-            movieList={movies}
+            movieIds={movieIds}
             addNewMovie={this.addNewMovie}/>
         </header>
         <div className="App-content">
-          {this.renderMovieSlot(movies)}
+          {this.renderMovieSlot(movieIds)}
         </div>
         <footer className="App-footer">
           <SearchBar

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Button,
   Modal,
@@ -11,35 +11,26 @@ import {
 } from 'reactstrap';
 import PropTypes from "prop-types";
 
-class AddMovieModal extends React.Component {
+class AddMovieModal extends Component {
   static propTypes = {
-    movieList: PropTypes.arrayOf(PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      image: PropTypes.string,
-      genres: PropTypes.arrayOf(PropTypes.string),
-      actors: PropTypes.arrayOf(PropTypes.string),
-      synopsis: PropTypes.string
-    })),
+    movieIds: PropTypes.arrayOf(PropTypes.string).isRequired,
     addNewMovie: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    movieList: [],
+    movieIds: [],
   };
 
   constructor(props) {
     super(props);
     this.state = {
       addNewMovie: false,
-
-      newMovieTitle: "",
-      newMovieImage: "",
-      newMovieGenres: "",
-      newMovieActors: "",
-      newMovieSynopsis: "",
+      results: [],
     };
 
     this.toggle = this.toggle.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.updateSearchResult = this.updateSearchResult.bind(this);
   }
 
   toggle() {
@@ -48,37 +39,44 @@ class AddMovieModal extends React.Component {
     });
   }
 
-  addMovie = () => {
-    const {
-      newMovieTitle, newMovieImage, newMovieGenres, newMovieActors, newMovieSynopsis,
-    } = this.state;
-    this.setState({
-      addNewMovie: !this.state.addNewMovie
-    });
-    let newMovie = {
-      title_english: newMovieTitle,
-      large_cover_image: newMovieImage,
-      id: "",
-      genres: (
-        newMovieGenres
-          .split(",")
-          .map((s) => s.trim())
-          .filter((s) => s !== "")
-      ),
-      actors: (
-        newMovieActors
-          .split(",")
-          .map((s) => s.trim())
-          .filter((s) => s !== "")
-      ),
-      synopsis: newMovieSynopsis
-    };
-    this.props.movieList.push(newMovie);
-    this.props.addNewMovie();
-  };
+  handleSubmit(e) {
+    e.preventDefault();
+  }
 
-  getUserInput = (name, value) => {
-    this.setState({[name]:value});
+  updateSearchResult() {
+    document.getElementById('results').className = 'formResults';
+    let val = document.getElementById('searchInput').value;
+
+    if (val === '') {
+      document.getElementById('results').className = 'noDisplay';
+    }
+
+    const key = 'ed7838206772925308953af2b2162f01';
+
+    fetch(`https://api.themoviedb.org/3/search/movie?api_key=${key}&language=en-US&query=${val}&page=1&include_adult=false`)
+      .then(response => {
+        if (response.status !== 200) {
+          console.log('Error: ' + response.status);
+          return;
+        }
+
+        response.json().then(data => {
+          const results = data.results;
+          this.setState({ results });
+        });
+      })
+
+      .catch(err => {
+        console.log('Fetch Error :-S', err);
+      })
+  }
+
+  addMovieId(movieId) {
+    this.props.movieIds.push(movieId);
+    this.props.addNewMovie();
+    document.getElementById('searchInput').value = '';
+    this.state.results = [];
+    this.toggle();
   };
 
   render() {
@@ -89,47 +87,28 @@ class AddMovieModal extends React.Component {
         <Modal isOpen={this.state.addNewMovie} toggle={this.toggle} className={this.props.className}>
           <ModalHeader toggle={this.toggle}>Add a movie to your catalogue</ModalHeader>
           <ModalBody>
-            <div>
+            <form onSubmit={this.handleSubmit} id="form">
               <InputGroup>
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Title</InputGroupText>
                 </InputGroupAddon>
-                <Input invalid={isTitleEmpty} onChange={(e) => this.getUserInput("newMovieTitle", e.target.value)}/>
+                <Input id="searchInput" invalid={isTitleEmpty} onKeyUp={this.updateSearchResult}/>
                 <FormFeedback>Title needs to filled in.</FormFeedback>
               </InputGroup>
               <br/>
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>Genre</InputGroupText>
-                </InputGroupAddon>
-                <Input onChange={(e) => this.getUserInput("newMovieGenres", e.target.value)}/>
-              </InputGroup>
-              <br/>
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>Actors</InputGroupText>
-                </InputGroupAddon>
-                <Input onChange={(e) => this.getUserInput("newMovieActors", e.target.value)}/>
-              </InputGroup>
-              <br/>
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>Synopsis</InputGroupText>
-                </InputGroupAddon>
-                <Input onChange={(e) => this.getUserInput("newMovieSynopsis", e.target.value)}/>
-              </InputGroup>
-              <br/>
-              <InputGroup>
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>Poster Image</InputGroupText>
-                </InputGroupAddon>
-                <Input onChange={(e) => this.getUserInput("newMovieImage", e.target.value)}/>
-              </InputGroup>
-              <br />
-            </div>
+              <ul id="results">
+                {this.state.results.map((element, index) => {
+                  return(
+                    <div onClick={() => this.addMovieId(this.state.results[index].id)}>
+                      <p>{this.state.results[index].title}</p>
+                      <p>{this.state.results[index].release_date}</p>
+                    </div>
+                  )
+                })}
+              </ul>
+            </form>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" disabled={isTitleEmpty} onClick={this.addMovie}>Add to the List!</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
