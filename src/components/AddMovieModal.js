@@ -11,6 +11,10 @@ import {
 } from 'reactstrap';
 import PropTypes from "prop-types";
 
+// Handle all API calls in here
+// show preview of the movie
+// pass in movie detail data back to APP.js
+
 class AddMovieModal extends Component {
   static propTypes = {
     movieIds: PropTypes.arrayOf(PropTypes.string).isRequired,

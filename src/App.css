@@ -40,7 +40,10 @@
   height: 100px;
   padding: 20px;
   color: white;
+    width:100%;
   text-align: left;
+    position:fixed;
+    bottom:0;
 }
 
 .SearchBar {

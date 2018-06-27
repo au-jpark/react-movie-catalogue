@@ -3,7 +3,6 @@ import './App.css';
 import SearchBar from "./components/SearchBar";
 import AddMovieModal from "./components/AddMovieModal";
 import MovieSlot from "./components/MovieSlot";
-import StickyFooter from 'react-sticky-footer';
 
 class App extends Component {
 
@@ -121,6 +120,7 @@ class App extends Component {
     let { movieIds, movies, searchText, searchBy } = this.state;
 
     let renderingSource = movieIds;
+
     // Search by title/genres/actors
     if (searchText !== "") {
       movies = movies.filter(
