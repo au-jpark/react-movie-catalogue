@@ -89,10 +89,10 @@ class MovieSlot extends Component {
                   <CardImg className="Card__Image" width="100%" src= {this.state.movie.backdrop_path === null ? "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97270&w=318&h=270&bg=333333&txtclr=666666" : `https://image.tmdb.org/t/p/original${this.state.movie.backdrop_path}`} alt="Card image cap" />
                   <CardImgOverlay>
                     <CardTitle className="text-body">{this.state.movie.title.toUpperCase()}</CardTitle>
-                    <CardText className="text-body">{this.state.movie.tagline}</CardText>
+                    <CardText className="text-black-50">{this.state.movie.tagline}</CardText>
                     <CardText className="text-body">{this.state.movie.overview}</CardText>
                     <CardText className="text-body">
-                      <Table>
+                      <Table size="sm">
                         <thead>
                         <tr>
                           <th>Actors</th>
