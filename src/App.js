@@ -17,7 +17,7 @@ class App extends Component {
     super(props);
 
     let savedNumberOfMovies = parseInt(localStorage.getItem("Number_Of_Movies"));
-    let {numberOfMovies, movies} = this.state;
+    let {movies} = this.state;
 
     if (savedNumberOfMovies > 0) {
 

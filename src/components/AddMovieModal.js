@@ -109,9 +109,12 @@ class AddMovieModal extends Component {
 
     document.getElementById('searchInput').value = '';
 
-    this.state.results = [];
-    this.state.selectedMovie = null;
-    this.state.searching = false;
+    this.setState({
+      results : [],
+      selectedMovie : null,
+      searching : false,
+    });
+
     this.toggle();
   }
 

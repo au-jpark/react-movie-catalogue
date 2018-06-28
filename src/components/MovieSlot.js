@@ -38,7 +38,7 @@ class MovieSlot extends Component {
     return(
       <div className="Movie">
         <div className="Movie__Column" onClick={this.toggle}>
-          <img src={this.props.movie.poster_path === null ? 'http://via.placeholder.com/300x450' : `https://image.tmdb.org/t/p/w300${this.props.movie.poster_path}`} title={this.props.movie.title} className="Movie__Poster" />
+          <img src={this.props.movie.poster_path === null ? 'http://via.placeholder.com/300x450' : `https://image.tmdb.org/t/p/w300${this.props.movie.poster_path}`} title={this.props.movie.title} className="Movie__Poster" alt="Movie Poster"/>
         </div>
         <div className="Movie__Column">
           <h1>{this.props.movie.title}</h1>
