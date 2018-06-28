@@ -22,21 +22,10 @@ class MovieSlot extends Component {
     super(props);
 
     this.state = {
-      movie: this.props.movie,
       modal: false
     };
 
     this.toggle = this.toggle.bind(this);
-  }
-
-  componentDidMount() {
-    this.setState({ movie : this.props.movie });
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.movie !== this.state.movie) {
-      this.setState({ movie : this.props.movie });
-    }
   }
 
   toggle() {
@@ -49,33 +38,33 @@ class MovieSlot extends Component {
     return(
       <div className="Movie">
         <div className="Movie__Column" onClick={this.toggle}>
-          <img src={this.state.movie.poster_path === null ? 'http://via.placeholder.com/300x450' : `https://image.tmdb.org/t/p/w300${this.state.movie.poster_path}`} title={this.state.movie.title} className="Movie__Poster" />
+          <img src={this.props.movie.poster_path === null ? 'http://via.placeholder.com/300x450' : `https://image.tmdb.org/t/p/w300${this.props.movie.poster_path}`} title={this.props.movie.title} className="Movie__Poster" />
         </div>
         <div className="Movie__Column">
-          <h1>{this.state.movie.title}</h1>
+          <h1>{this.props.movie.title}</h1>
           <div className="Movie__Genres">
             <span className="Movie__Genre">
-            {this.state.movie.genres.slice(0,3).map((element, index) => {
-              if (index < this.state.movie.genres.length - 1) {
-                return this.state.movie.genres[index].name + ', '
+            {this.props.movie.genres.slice(0,3).map((element, index) => {
+              if (index < this.props.movie.genres.length - 1) {
+                return this.props.movie.genres[index].name + ', '
               } else {
-                return this.state.movie.genres[index].name
+                return this.props.movie.genres[index].name
               }
             })}</span>
           </div>
           <div className="Movie__Genres">
             <span className="Movie__Genre">
-            {this.state.movie.credits.cast.slice(0, 3).map((element, index) => {
-              if (index < this.state.movie.credits.cast.length - 1) {
-                return this.state.movie.credits.cast[index].name + ','
+            {this.props.movie.credits.cast.slice(0, 3).map((element, index) => {
+              if (index < this.props.movie.credits.cast.length - 1) {
+                return this.props.movie.credits.cast[index].name + ','
               } else {
-                return this.state.movie.credits.cast[index].name
+                return this.props.movie.credits.cast[index].name
               }
             })}</span>
           </div>
           <div className="Movie__Synopsis">
             <LinesEllipsis
-              text={this.state.movie.overview}
+              text={this.props.movie.overview}
               maxLine='3'
               ellipsis='...'
               trimRight
@@ -86,11 +75,11 @@ class MovieSlot extends Component {
             <Modal isOpen={this.state.modal} toggle={this.toggle} size="lg">
               <ModalBody>
                 <Card inverse>
-                  <CardImg className="Card__Image" width="100%" src= {this.state.movie.backdrop_path === null ? "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97270&w=318&h=270&bg=333333&txtclr=666666" : `https://image.tmdb.org/t/p/original${this.state.movie.backdrop_path}`} alt="Card image cap" />
+                  <CardImg className="Card__Image" width="100%" src= {this.props.movie.backdrop_path === null ? "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97270&w=318&h=270&bg=333333&txtclr=666666" : `https://image.tmdb.org/t/p/original${this.props.movie.backdrop_path}`} alt="Card image cap" />
                   <CardImgOverlay>
-                    <CardTitle className="text-body">{this.state.movie.title.toUpperCase()}</CardTitle>
-                    <CardText className="text-black-50">{this.state.movie.tagline}</CardText>
-                    <CardText className="text-body">{this.state.movie.overview}</CardText>
+                    <CardTitle className="text-body">{this.props.movie.title.toUpperCase()}</CardTitle>
+                    <CardText className="text-black-50">{this.props.movie.tagline}</CardText>
+                    <CardText className="text-body">{this.props.movie.overview}</CardText>
                     <CardText className="text-body">
                       <Table size="sm">
                         <thead>
@@ -100,11 +89,11 @@ class MovieSlot extends Component {
                         </thead>
                         <tbody>
                         <tr>
-                          <td>{this.state.movie.credits.cast.slice(0, 5).map((element, index) => {
-                            if (index < this.state.movie.credits.cast.length - 1) {
-                              return this.state.movie.credits.cast[index].name + ', '
+                          <td>{this.props.movie.credits.cast.slice(0, 5).map((element, index) => {
+                            if (index < this.props.movie.credits.cast.length - 1) {
+                              return this.props.movie.credits.cast[index].name + ', '
                             } else {
-                              return this.state.movie.credits.cast[index].name
+                              return this.props.movie.credits.cast[index].name
                             }
                           })}</td>
                         </tr>
@@ -114,11 +103,11 @@ class MovieSlot extends Component {
                           </th>
                         </tr>
                         <tr>
-                          <td>{this.state.movie.genres.slice(0, 5).map((element, index) => {
-                            if (index < this.state.movie.genres.length - 1) {
-                              return this.state.movie.genres[index].name + ', '
+                          <td>{this.props.movie.genres.slice(0, 5).map((element, index) => {
+                            if (index < this.props.movie.genres.length - 1) {
+                              return this.props.movie.genres[index].name + ', '
                             } else {
-                              return this.state.movie.genres[index].name
+                              return this.props.movie.genres[index].name
                             }
                           })}</td>
                         </tr>
