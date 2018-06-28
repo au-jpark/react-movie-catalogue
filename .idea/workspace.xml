@@ -3,8 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="49873084-58ae-4697-b1e8-a619051fa565" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/AddMovieModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/AddMovieModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MovieSlot.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/MovieSlot.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/MovieSlot.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/MovieSlot.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -19,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="App.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="950">
-              <caret line="54" lean-forward="true" selection-start-line="54" selection-end-line="54" />
+            <state relative-caret-position="36">
+              <caret line="2" column="14" lean-forward="true" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -31,8 +30,8 @@
       <file leaf-file-name="AddMovieModal.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/AddMovieModal.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1824">
-              <caret line="96" column="42" selection-start-line="96" selection-start-column="42" selection-end-line="96" selection-end-column="42" />
+            <state relative-caret-position="366">
+              <caret line="127" column="43" lean-forward="true" selection-start-line="127" selection-start-column="34" selection-end-line="127" selection-end-column="43" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -40,11 +39,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MovieSlot.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MovieSlot.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/MovieSlot.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="551">
-              <caret line="31" column="43" lean-forward="true" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
+            <state relative-caret-position="514">
+              <caret line="134" column="31" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MovieSlot.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/MovieSlot.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="174">
+              <caret line="42" column="18" lean-forward="true" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -60,9 +68,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>APISearchBar</find>
-      <find>onclick</find>
-      <find>w300</find>
       <find>add</find>
       <find>input</find>
       <find>className</find>
@@ -88,8 +93,11 @@
       <find>etMovieDetail</find>
       <find>genres</find>
       <find>movieId</find>
-      <find>getData</find>
       <find>console.log</find>
+      <find>getData</find>
+      <find>FUllMovie</find>
+      <find>this.toggle</find>
+      <find>lg</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -99,7 +107,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/index.js" />
-        <option value="$PROJECT_DIR$/src/MovieSlot.css" />
         <option value="$PROJECT_DIR$/src/components/TMDBSearch.js" />
         <option value="$PROJECT_DIR$/src/components/SearchBar.js" />
         <option value="$PROJECT_DIR$/src/components/APISearchResult.js" />
@@ -107,7 +114,9 @@
         <option value="$PROJECT_DIR$/src/components/APISearchBar.js" />
         <option value="$PROJECT_DIR$/src/App.css" />
         <option value="$PROJECT_DIR$/src/components/AddMovieModal.js" />
+        <option value="$PROJECT_DIR$/src/components/FullMovieInfoModal.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
+        <option value="$PROJECT_DIR$/src/MovieSlot.css" />
         <option value="$PROJECT_DIR$/src/components/MovieSlot.js" />
       </list>
     </option>
@@ -205,12 +214,12 @@
       <workItem from="1529892984066" duration="11200000" />
       <workItem from="1529957891110" duration="6817000" />
       <workItem from="1530069046529" duration="13800000" />
-      <workItem from="1530145164739" duration="2519000" />
+      <workItem from="1530145164739" duration="6702000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47695000" />
+    <option name="totallyTimeSpent" value="51878000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -455,13 +464,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/MovieSlot.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="15" column="21" selection-start-line="15" selection-start-column="21" selection-end-line="15" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/TMDBSearch.js" />
     <entry file="file://$PROJECT_DIR$/src/components/APISearchResult.js" />
     <entry file="file://$PROJECT_DIR$/src/components/APISearchBar.js" />
@@ -509,27 +511,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/MovieSlot.js">
+    <entry file="file://$PROJECT_DIR$/src/components/FullMovieInfoModal.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="551">
-          <caret line="31" column="43" lean-forward="true" selection-start-line="31" selection-start-column="43" selection-end-line="31" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/AddMovieModal.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1824">
-          <caret line="96" column="42" selection-start-line="96" selection-start-column="42" selection-end-line="96" selection-end-column="42" />
+        <state relative-caret-position="184">
+          <caret line="23" column="4" selection-start-line="23" selection-start-column="4" selection-end-line="28" selection-end-column="41" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/MovieSlot.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="42" column="18" lean-forward="true" selection-start-line="42" selection-start-column="18" selection-end-line="42" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="950">
-          <caret line="54" lean-forward="true" selection-start-line="54" selection-end-line="54" />
+        <state relative-caret-position="36">
+          <caret line="2" column="14" lean-forward="true" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/AddMovieModal.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="127" column="43" lean-forward="true" selection-start-line="127" selection-start-column="34" selection-end-line="127" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/MovieSlot.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="514">
+          <caret line="134" column="31" selection-start-line="134" selection-start-column="31" selection-end-line="134" selection-end-column="31" />
         </state>
       </provider>
     </entry>
