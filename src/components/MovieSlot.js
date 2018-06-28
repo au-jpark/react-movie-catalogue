@@ -6,11 +6,9 @@ import {
   CardImg,
   CardImgOverlay,
   CardText,
-  CardTitle, Media,
+  CardTitle,
   Modal,
-  ModalBody,
-  ModalFooter,
-  ModalHeader, Table
+  ModalBody, Table
 } from "reactstrap";
 
 class MovieSlot extends Component {
@@ -86,24 +84,6 @@ class MovieSlot extends Component {
                     <CardTitle className="text-body">{this.state.movie.title.toUpperCase()}</CardTitle>
                     <CardText className="text-body">{this.state.movie.tagline}</CardText>
                     <CardText className="text-body">{this.state.movie.overview}</CardText>
-                    {/*<CardText className="text-body">*/}
-                      {/*<Table>*/}
-                        {/*<thead>*/}
-                        {/*<tr>*/}
-                          {/*<th>Rating</th>*/}
-                          {/*<th>Release Date</th>*/}
-                          {/*<th>Revenue</th>*/}
-                        {/*</tr>*/}
-                        {/*</thead>*/}
-                        {/*<tbody>*/}
-                        {/*<tr>*/}
-                          {/*<td>{this.state.movie.vote_average}</td>*/}
-                          {/*<td>{this.state.movie.release_date}</td>*/}
-                          {/*<td>{"$" + (this.state.movie.revenue).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}</td>*/}
-                        {/*</tr>*/}
-                        {/*</tbody>*/}
-                      {/*</Table>*/}
-                    {/*</CardText>*/}
                     <CardText className="text-body">
                       <Table>
                         <thead>
@@ -140,7 +120,6 @@ class MovieSlot extends Component {
                     </CardText>
                   </CardImgOverlay>
                 </Card>
-
               </ModalBody>
             </Modal>
           </div>

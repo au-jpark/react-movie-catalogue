@@ -7,7 +7,7 @@ import {
   ModalFooter,
   InputGroup,
   InputGroupAddon,
-  InputGroupText, Input, FormFeedback, Table
+  InputGroupText, Input, FormFeedback, Table, Card, CardBody, CardTitle, CardText
 } from 'reactstrap';
 import PropTypes from "prop-types";
 
@@ -25,6 +25,7 @@ class AddMovieModal extends Component {
     super(props);
     this.state = {
       addNewMovie: false,
+      searching: false,
       results: [],
       selectedMovie: null,
     };
@@ -46,11 +47,11 @@ class AddMovieModal extends Component {
   }
 
   updateSearchResult() {
+    const key = 'ed7838206772925308953af2b2162f01';
     let val = document.getElementById('searchInput').value;
 
-    const key = 'ed7838206772925308953af2b2162f01';
-
     if (val !== '') {
+      this.setState({ searching : true });
       fetch(`https://api.themoviedb.org/3/search/movie?api_key=${key}&language=en-US&query=${val}&page=1&include_adult=false`)
         .then(response => {
           if (response.status !== 200) {
@@ -59,14 +60,19 @@ class AddMovieModal extends Component {
           }
 
           response.json().then(data => {
-            const results = data.results;
+            const results = data.results.slice(0, 5);
             this.setState({ results });
           });
         })
 
         .catch(err => {
-          console.log('Fetch Error :-S', err);
+          console.log('Fetch Error', err);
         })
+    } else {
+      this.setState({
+        searching : false,
+        selectedMovie: null,
+      });
     }
   }
 
@@ -88,13 +94,11 @@ class AddMovieModal extends Component {
 
       })
       .catch(err => {
-        console.log('Fetch Error :-S', err);
+        console.log('Fetch Error', err);
       })
   }
 
   addMovie() {
-    console.log("Adding this");
-    console.log(this.state.selectedMovie);
     this.props.movies.push(this.state.selectedMovie);
     this.props.addNewMovie();
 
@@ -102,6 +106,7 @@ class AddMovieModal extends Component {
 
     this.state.results = [];
     this.state.selectedMovie = null;
+    this.state.searching = false;
     this.toggle();
   }
 
@@ -112,10 +117,15 @@ class AddMovieModal extends Component {
   renderPreviewMovie() {
     if (this.state.selectedMovie !== null) {
       return(
-        <p>
-          {this.state.selectedMovie.title}
-          {this.state.selectedMovie.release_date}
-        </p>
+        <Card>
+          <CardBody>
+            <CardTitle>{this.state.selectedMovie.title}</CardTitle>
+          </CardBody>
+          <img width="100%" src= {this.state.selectedMovie.backdrop_path === null ? "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97270&w=318&h=270&bg=333333&txtclr=666666" : `https://image.tmdb.org/t/p/original${this.state.selectedMovie.backdrop_path}`} alt="Card image cap" />
+          <CardBody>
+            <CardText>{this.state.selectedMovie.tagline}</CardText>
+          </CardBody>
+        </Card>
       )
     } else {
       return
@@ -134,19 +144,20 @@ class AddMovieModal extends Component {
                 <InputGroupAddon addonType="prepend">
                   <InputGroupText>Title</InputGroupText>
                 </InputGroupAddon>
-                <Input id="searchInput" onKeyUp={this.updateSearchResult}/>
+                <Input id="searchInput" onKeyUp={this.updateSearchResult} placeholder="Search for a movie"/>
                 <FormFeedback>Title needs to filled in.</FormFeedback>
               </InputGroup>
               <br/>
-              <Table hover id="results">
-                <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Release Date</th>
-                </tr>
-                </thead>
-                <tbody>
-                {this.state.results.map((element, index) => {
+              <div className="resultTable" hidden={!this.state.searching}>
+                <Table hover id="results">
+                  <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Release Date</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {this.state.results.map((element, index) => {
                     return(
                       <tr onClick={() => this.getMoviePreview(this.state.results[index].id)} >
                         <td>{this.state.results[index].title}</td>
@@ -154,10 +165,14 @@ class AddMovieModal extends Component {
                       </tr>
                     )
                   })}
-                </tbody>
-              </Table>
+                  </tbody>
+                </Table>
+              </div>
             </form>
-            {this.renderPreviewMovie()}
+            <div>
+              {this.renderPreviewMovie()}
+            </div>
+
           </ModalBody>
           <ModalFooter>
             <Button color="primary" onClick={this.addMovie} disabled={this.state.selectedMovie === null}>Add</Button>
