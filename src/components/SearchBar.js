@@ -12,6 +12,7 @@ import {
 import PropTypes from "prop-types";
 
 class SearchBar extends Component {
+
   static propTypes = {
     updateSearchBy: PropTypes.func.isRequired,
     updateSearchText: PropTypes.func.isRequired,
@@ -20,16 +21,18 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
 
-    this.toggleDropDown = this.toggleDropDown.bind(this);
-    this.toggleSplit = this.toggleSplit.bind(this);
     this.state = {
       dropDownOpen: false,
       splitButtonOpen: false,
       searchText: '',
       searchBy: 'title'
     };
+
+    this.toggleDropDown = this.toggleDropDown.bind(this);
+    this.toggleSplit = this.toggleSplit.bind(this);
   }
 
+  // These functions update the search method in the main app.js
   updateSearchByToTitle = () => {
     this.setState({searchBy: 'title'});
     this.props.updateSearchBy('title');
@@ -64,7 +67,8 @@ class SearchBar extends Component {
 
   render() {
     const { searchText, searchBy } = this.state;
-    let value = 'Search by ' + searchBy;
+    let placeholderText = 'Search by ' + searchBy;
+
     return(
       <InputGroup>
         <InputGroupButtonDropdown addonType="prepend" isOpen={this.state.splitButtonOpen} toggle={this.toggleSplit}>
@@ -76,7 +80,7 @@ class SearchBar extends Component {
           </DropdownMenu>
         </InputGroupButtonDropdown>
         <Input
-          placeholder={value}
+          placeholder={placeholderText}
           onChange={this.updateSearchText}
           value={searchText}/>
         <InputGroupAddon addonType="append"><Button color="secondary">Search</Button></InputGroupAddon>

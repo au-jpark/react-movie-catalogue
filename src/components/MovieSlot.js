@@ -10,10 +10,17 @@ import {
   Modal,
   ModalBody, Table
 } from "reactstrap";
+import PropTypes from "prop-types";
 
 class MovieSlot extends Component {
+
+  static propTypes = {
+    movie: PropTypes.shape.isRequired,
+  };
+
   constructor(props) {
     super(props);
+
     this.state = {
       movie: this.props.movie,
       modal: false

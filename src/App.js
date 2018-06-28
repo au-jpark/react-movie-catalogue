@@ -18,10 +18,15 @@ class App extends Component {
 
     let savedNumberOfMovies = parseInt(localStorage.getItem("Number_Of_Movies"));
     let {numberOfMovies, movies} = this.state;
+
     if (savedNumberOfMovies > 0) {
+
       this.state.numberOfMovies = savedNumberOfMovies;
+
       for (let i = 0; i < savedNumberOfMovies; i++) {
+
         let savedMovie = JSON.parse(localStorage.getItem(i.toString()));
+
         movies.push(savedMovie);
       }
     }
@@ -35,6 +40,7 @@ class App extends Component {
     } else {
       return this.searchByActor.bind(this, searchText);
     }
+
   };
 
   searchByTitle(searchText, movie) {
@@ -58,15 +64,18 @@ class App extends Component {
     this.setState({searchText:newText});
   };
 
+  // Add newly added movie to the local storage, then increment the number of movies
   addNewMovie = () => {
     let {numberOfMovies, movies} = this.state;
     let newMovie = movies.slice(-1)[0];
+
     localStorage.setItem(numberOfMovies.toString(), JSON.stringify(newMovie));
     numberOfMovies += 1;
     localStorage.setItem("Number_Of_Movies", numberOfMovies);
     this.setState({ numberOfMovies : numberOfMovies });
   };
 
+  // Render movie slots for each movie
   renderMovieSlot = (source) => {
     const moviesToDisplay = source.map(element => {
       return(
