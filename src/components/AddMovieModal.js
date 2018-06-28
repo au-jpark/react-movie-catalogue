@@ -41,6 +41,9 @@ class AddMovieModal extends Component {
   toggle() {
     this.setState({
       addNewMovie: !this.state.addNewMovie,
+      results : [],
+      selectedMovie : null,
+      searching : false,
     });
   }
 
@@ -108,12 +111,6 @@ class AddMovieModal extends Component {
     this.props.addNewMovie();
 
     document.getElementById('searchInput').value = '';
-
-    this.setState({
-      results : [],
-      selectedMovie : null,
-      searching : false,
-    });
 
     this.toggle();
   }
