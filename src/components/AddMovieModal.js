@@ -145,7 +145,7 @@ class AddMovieModal extends Component {
     return (
       <div>
         <Button color="secondary" size="lg" onClick={this.toggle}>Add New Movie</Button>
-        <Modal isOpen={this.state.addNewMovie} toggle={this.toggle}>
+        <Modal isOpen={this.state.addNewMovie} toggle={this.toggle} size="lg">
           <ModalHeader toggle={this.toggle}>Add a movie to your catalogue</ModalHeader>
           <ModalBody>
             <form onSubmit={this.handleSubmit} id="form">
