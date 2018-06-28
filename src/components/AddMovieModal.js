@@ -11,18 +11,14 @@ import {
 } from 'reactstrap';
 import PropTypes from "prop-types";
 
-// Handle all API calls in here
-// show preview of the movie
-// pass in movie detail data back to APP.js
-
 class AddMovieModal extends Component {
   static propTypes = {
-    movieIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+    movies: PropTypes.arrayOf(PropTypes.shape).isRequired,
     addNewMovie: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
-    movieIds: [],
+    movies: [],
   };
 
   constructor(props) {
@@ -30,16 +26,18 @@ class AddMovieModal extends Component {
     this.state = {
       addNewMovie: false,
       results: [],
+      selectedMovie: null,
     };
 
     this.toggle = this.toggle.bind(this);
+    this.addMovie = this.addMovie.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.updateSearchResult = this.updateSearchResult.bind(this);
   }
 
   toggle() {
     this.setState({
-      addNewMovie: !this.state.addNewMovie
+      addNewMovie: !this.state.addNewMovie,
     });
   }
 
@@ -72,13 +70,57 @@ class AddMovieModal extends Component {
     }
   }
 
-  addMovieId(movieId) {
-    this.props.movieIds.push(movieId.toString());
+  getMovieDetail(movieId) {
+    console.log("Getting Data");
+    const key = 'ed7838206772925308953af2b2162f01';
+
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${key}&language=en-US&append_to_response=credits`)
+      .then(response => {
+        if (response.status !== 200) {
+          console.log('Error: ' + response.status);
+          return;
+        }
+
+        response.json().then(data => {
+          const movie = data;
+          this.setState({ selectedMovie:movie});
+        });
+
+      })
+      .catch(err => {
+        console.log('Fetch Error :-S', err);
+      })
+  }
+
+  addMovie() {
+    console.log("Adding this");
+    console.log(this.state.selectedMovie);
+    this.props.movies.push(this.state.selectedMovie);
     this.props.addNewMovie();
+
     document.getElementById('searchInput').value = '';
+
     this.state.results = [];
+    this.state.selectedMovie = null;
     this.toggle();
-  };
+  }
+
+  getMoviePreview(movieId) {
+    this.getMovieDetail(movieId);
+  }
+
+  renderPreviewMovie() {
+    if (this.state.selectedMovie !== null) {
+      return(
+        <p>
+          {this.state.selectedMovie.title}
+          {this.state.selectedMovie.release_date}
+        </p>
+      )
+    } else {
+      return
+    }
+  }
 
   render() {
     return (
@@ -106,9 +148,8 @@ class AddMovieModal extends Component {
                 <tbody>
                 {this.state.results.map((element, index) => {
                     return(
-                      <tr onClick={() => this.addMovieId(this.state.results[index].id)} >
+                      <tr onClick={() => this.getMoviePreview(this.state.results[index].id)} >
                         <td>{this.state.results[index].title}</td>
-
                         <td>{this.state.results[index].release_date}</td>
                       </tr>
                     )
@@ -116,8 +157,10 @@ class AddMovieModal extends Component {
                 </tbody>
               </Table>
             </form>
+            {this.renderPreviewMovie()}
           </ModalBody>
           <ModalFooter>
+            <Button color="primary" onClick={this.addMovie} disabled={this.state.selectedMovie === null}>Add</Button>
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>

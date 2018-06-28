@@ -7,7 +7,6 @@ import MovieSlot from "./components/MovieSlot";
 class App extends Component {
 
   state = {
-    movieIds: [],
     movies: [],
     numberOfMovies: 0,
     searchText: '',
@@ -18,13 +17,12 @@ class App extends Component {
     super(props);
 
     let savedNumberOfMovies = parseInt(localStorage.getItem("Number_Of_Movies"));
-    let {movieIds, numberOfMovies} = this.state;
+    let {numberOfMovies, movies} = this.state;
     if (savedNumberOfMovies > 0) {
       this.state.numberOfMovies = savedNumberOfMovies;
-      for (var i = 0; i < savedNumberOfMovies; i++) {
-        let savedMovieId = localStorage.getItem(i.toString());
-        this.getData(savedMovieId);
-        movieIds.push(savedMovieId);
+      for (let i = 0; i < savedNumberOfMovies; i++) {
+        let savedMovie = JSON.parse(localStorage.getItem(i.toString()));
+        movies.push(savedMovie);
       }
     }
   }
@@ -48,7 +46,7 @@ class App extends Component {
   }
 
   searchByActor(searchText, movie) {
-    return movie.actors.some((actor) => actor.name.toLowerCase().includes(searchText));
+    return movie.credits.cast.some((actor) => actor.name.toLowerCase().includes(searchText));
   }
 
   updateSearchBy = (searchCriteria) => {
@@ -61,72 +59,31 @@ class App extends Component {
   };
 
   addNewMovie = () => {
-    let {numberOfMovies, movieIds} = this.state;
-    let newMovie = movieIds.slice(-1)[0];
-    localStorage.setItem(numberOfMovies.toString(), newMovie);
+    let {numberOfMovies, movies} = this.state;
+    let newMovie = movies.slice(-1)[0];
+    localStorage.setItem(numberOfMovies.toString(), JSON.stringify(newMovie));
     numberOfMovies += 1;
     localStorage.setItem("Number_Of_Movies", numberOfMovies);
-    this.setState({ numberOfMovies:numberOfMovies});
-
-    this.getData(newMovie);
+    this.setState({ numberOfMovies : numberOfMovies });
   };
-
-  getData(movieIdToDisplay) {
-    console.log("Getting Data");
-    const key = 'ed7838206772925308953af2b2162f01';
-
-    fetch(`https://api.themoviedb.org/3/movie/${movieIdToDisplay}?api_key=${key}&language=en-US&append_to_response=credits`)
-      .then(response => {
-        if (response.status !== 200) {
-          console.log('Error: ' + response.status);
-          return;
-        }
-
-        response.json().then(data => {
-          const movie = data;
-          const newMovie = {
-            id: movie.id,
-            title: movie.title,
-            actors: movie.credits.cast.slice(0, 3),
-            genres: movie.genres.slice(0,3),
-          };
-          if (this.state.movies.length !== this.state.numberOfMovies) {
-            this.state.movies.push(newMovie);
-          }
-        });
-
-      })
-      .catch(err => {
-        console.log('Fetch Error :-S', err);
-      })
-  }
 
   renderMovieSlot = (source) => {
     const moviesToDisplay = source.map(element => {
-      if (this.state.searchText !== "") {
-        return(
-          <MovieSlot movieId={element.id}/>
-        )
-      } else {
-        return(
-          <MovieSlot movieId={element}/>
-        )
-      }
+      return(
+        <MovieSlot movie={element}/>
+      )
     });
     return moviesToDisplay;
   };
 
   render() {
-    let { movieIds, movies, searchText, searchBy } = this.state;
-
-    let renderingSource = movieIds;
+    let { movies, searchText, searchBy } = this.state;
 
     // Search by title/genres/actors
     if (searchText !== "") {
       movies = movies.filter(
         this.searchMovie(searchText, searchBy)
       );
-      renderingSource = movies;
     }
 
     return (
@@ -135,12 +92,12 @@ class App extends Component {
           <h1 className="App-title">Movie Catalogue</h1>
           <div className="Add-movie-button">
             <AddMovieModal
-              movieIds={movieIds}
+              movies={movies}
               addNewMovie={this.addNewMovie}/>
           </div>
         </header>
         <div className="App-content">
-          {this.renderMovieSlot(renderingSource)}
+          {this.renderMovieSlot(movies)}
         </div>
         <footer className="App-footer">
           <SearchBar

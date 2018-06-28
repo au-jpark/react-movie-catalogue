@@ -6,45 +6,17 @@ class MovieSlot extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      movie: {
-        genres: [],
-        credits: {
-          cast: [],
-        }
-      }
+      movie: this.props.movie,
     };
-    this.getData = this.getData.bind(this);
-  }
-
-  getData() {
-    const key = 'ed7838206772925308953af2b2162f01';
-    const id = this.props.movieId;
-
-    fetch(`https://api.themoviedb.org/3/movie/${id}?api_key=${key}&language=en-US&append_to_response=credits`)
-      .then(response => {
-        if (response.status !== 200) {
-          console.log('Error: ' + response.status);
-          return;
-        }
-
-        response.json().then(data => {
-          const movie = data;
-          this.setState({ movie });
-        });
-
-      })
-      .catch(err => {
-        console.log('Fetch Error :-S', err);
-      })
   }
 
   componentDidMount() {
-    this.getData();
+    this.setState({ movie : this.props.movie });
   }
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.movie !== this.state.movie) {
-      this.getData();
+      this.setState({ movie : this.props.movie });
     }
   }
 
