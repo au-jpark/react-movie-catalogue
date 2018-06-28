@@ -121,6 +121,7 @@ class AddMovieModal extends Component {
 
   renderPreviewMovie() {
     if (this.state.selectedMovie !== null) {
+
       return(
         <Card>
           <CardBody>
@@ -132,8 +133,11 @@ class AddMovieModal extends Component {
           </CardBody>
         </Card>
       )
+
     } else {
+
       return
+
     }
   }
 

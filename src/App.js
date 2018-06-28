@@ -34,13 +34,18 @@ class App extends Component {
 
   searchMovie = (searchText, searchBy) => {
     if (searchBy === 'title') {
-      return this.searchByTitle.bind(this, searchText);
-    } else if (searchBy === 'genre') {
-      return this.searchByGenre.bind(this, searchText);
-    } else {
-      return this.searchByActor.bind(this, searchText);
-    }
 
+      return this.searchByTitle.bind(this, searchText);
+
+    } else if (searchBy === 'genre') {
+
+      return this.searchByGenre.bind(this, searchText);
+
+    } else {
+
+      return this.searchByActor.bind(this, searchText);
+
+    }
   };
 
   searchByTitle(searchText, movie) {
@@ -72,6 +77,7 @@ class App extends Component {
     localStorage.setItem(numberOfMovies.toString(), JSON.stringify(newMovie));
     numberOfMovies += 1;
     localStorage.setItem("Number_Of_Movies", numberOfMovies);
+
     this.setState({ numberOfMovies : numberOfMovies });
   };
 
@@ -90,9 +96,11 @@ class App extends Component {
 
     // Search by title/genres/actors
     if (searchText !== "") {
+
       movies = movies.filter(
         this.searchMovie(searchText, searchBy)
       );
+
     }
 
     return (
